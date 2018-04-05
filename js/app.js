@@ -1,9 +1,10 @@
 /*
  * Create a list that holds all of your cards
  */
- let symbols = ['bicycle', 'bicycle', 'leaf', 'leaf', 'cube', 'cube', 'anchor', 'anchor', 'paper-plane-o', 'paper-plane-o', 'bolt', 'bolt', 'bomb', 'bomb', 'diamond', 'diamond'],
- 	opened = [],
- 	$deck = $('.deck');
+let symbols = ['bicycle', 'bicycle', 'leaf', 'leaf', 'cube', 'cube', 'anchor', 'anchor', 'paper-plane-o', 'paper-plane-o', 'bolt', 'bolt', 'bomb', 'bomb', 'diamond', 'diamond'],
+  opened = [],
+  $deck = $('.deck');
+
 
 
 
@@ -17,27 +18,37 @@
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length,
+    temporaryValue, randomIndex;
 
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
 
-    return array;
+  return array;
 }
 // Initial Game
 function initGame() {
-	var cards = shuffle(symbols);
-	$deck.empty();
-	for (var i = 0; i < cards.length; i++) {
-		$deck.append($('<li class="card"><i class="fa fa-' + cards[i] + '"></i></li>'))
-	}
+  var cards = shuffle(symbols);
+  $deck.empty();
+  for (var i = 0; i < cards.length; i++) {
+    $deck.append($('<li class="card"><i class="fa fa-' + cards[i] + '"></i></li>'))
+  }
+};
 
 initGame();
+
+var $card = $('.card');
+
+$card.bind('click', function() {
+  $card.addClass('card open show');
+});
+
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
