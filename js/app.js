@@ -3,6 +3,7 @@
  */
 let symbols = ['bicycle', 'bicycle', 'leaf', 'leaf', 'cube', 'cube', 'anchor', 'anchor', 'paper-plane-o', 'paper-plane-o', 'bolt', 'bolt', 'bomb', 'bomb', 'diamond', 'diamond'],
   opened = [],
+  matches = [],
   $deck = $('.deck');
 
 
@@ -42,11 +43,32 @@ function initGame() {
 
 initGame();
 
-var $card = $('.card');
+// Create function that will flip the cards
+/// and store them in 'opened' variable
+function addFlipCard() {
+  var $card = $('.card');
 
-$card.bind('click', function() {
-  $card.addClass('card open show');
-});
+  $card.bind('click', function() {
+    $flippedCard = $(this).addClass('card open show');
+    opened.push($flippedCard);
+    $flippedCard;
+  })
+};
+
+addFlipCard();
+
+// Creates function that adds to matches the class if after two clicks,
+/// there is a match
+
+function comparedCard() {
+
+  if (opened[0] === opened[1]) {
+    matches.push($flippedCard.innerHTML);
+  }
+};
+
+
+
 
 
 
