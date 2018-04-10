@@ -52,6 +52,7 @@ function addFlipCard() {
     $flippedCard = $(this).addClass('card open show');
     opened.push($flippedCard);
     $flippedCard;
+    comparedCard();
   })
 };
 
@@ -61,15 +62,20 @@ addFlipCard();
 /// there is a match
 
 function comparedCard() {
+  if (opened.length > 1) {
 
-  if ($(opened[0]).children().attr('class') === $(opened[1]).children().attr('class')) {
-    $(opened[0]).toggleClass('.deck .card.match');
-  } else {
-    $(opened[0]).removeClass('open show');
+    let cardOne = $(opened[0]).children().attr('class'),
+        cardTwo = $(opened[1]).children().attr('class');
+
+    if (cardOne === cardTwo) {
+      $(opened[0]).toggleClass('.deck .card.match') && $(opened[1]).toggleClass('.deck .card.match');
+    } else {
+      $(opened[0]).toggleClass('open show') && $(opened[0]).toggleClass('open show');
+    }
   }
 };
 
-comparedCard();
+
 
 
 
