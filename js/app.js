@@ -62,10 +62,14 @@ addFlipCard();
 
 function comparedCard() {
 
-  if (opened[0] === opened[1]) {
-    matches.push($flippedCard.innerHTML);
+  if ($(opened[0]).children().attr('class') === $(opened[1]).children().attr('class')) {
+    $(opened[0]).toggleClass('.deck .card.match');
+  } else {
+    $(opened[0]).removeClass('open show');
   }
 };
+
+comparedCard();
 
 
 
