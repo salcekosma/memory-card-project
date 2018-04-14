@@ -3,8 +3,16 @@
  */
 let symbols = ['bicycle', 'bicycle', 'leaf', 'leaf', 'cube', 'cube', 'anchor', 'anchor', 'paper-plane-o', 'paper-plane-o', 'bolt', 'bolt', 'bomb', 'bomb', 'diamond', 'diamond'],
   opened = [],
-  matches = [],
-  $deck = $('.deck');
+  matches = 0,
+  moves=[],
+  $moveCount = $('.moves'),
+  $starsCount = $('.fa-star'),
+  delay = 400,
+  $deck = $('.deck'),
+
+  rank3stars = 8,
+  rank2stars = 14,
+  rank1stars = 18;
 
 
 
@@ -36,29 +44,60 @@ function shuffle(array) {
 function initGame() {
   var cards = shuffle(symbols);
   $deck.empty();
+  match =0;
+  moves=0;
+  $moveCount.text('0');
+	$starsCount.removeClass('fa-star-o').addClass('fa-star');
   for (var i = 0; i < cards.length; i++) {
     $deck.append($('<li class="card"><i class="fa fa-' + cards[i] + '"></i></li>'))
   }
+  addFlipCard();
 };
 
 initGame();
 
+// Set Rating and final Score
+function setRating(moves) {
+	var rating = 3;
+	if (moves > rank3stars && moves < rank2stars) {
+		$starsCount.eq(2).removeClass('fa-star').addClass('fa-star-o');
+		rating = 2;
+	} else if (moves > rank2stars && moves < rank1stars) {
+		$starsCount.eq(1).removeClass('fa-star').addClass('fa-star-o');
+		rating = 1;
+	} else if (moves > rank1stars) {
+		$starsCount.eq(0).removeClass('fa-star').addClass('fa-star-o');
+		rating = 0;
+	}
+	return { score: rating };
+};
 
 // Creates function that adds to matches the class if after two clicks,
 /// there is a match
 function comparedCard() {
-  if (opened.length > 1) {
+
+  if (opened.length == 2) {
 
     let cardOne = $(opened[0]).children().attr('class'),
         cardTwo = $(opened[1]).children().attr('class');
 
     if (cardOne === cardTwo) {
-      $(opened[0]).toggleClass('.deck .card.match') && $(opened[1]).toggleClass('.deck .card.match');
+      opened[0].addClass('match') && opened[1].addClass('match');
+      opened=[];
+      match++;
+
     } else {
-      $(opened[0]).toggleClass('open show') && $(opened[0]).toggleClass('open show');
+      setTimeout(function() {
+        opened[0].removeClass('open show') && opened[1].removeClass('open show');
+        opened=[];
+        moves++;
+        setRating(moves);
+        $moveCount.html(moves);
+      }, delay/1.5);
     }
   }
 };
+
 
 // Create function that will flip the cards
 /// and store them in 'opened' variable
@@ -68,13 +107,9 @@ function addFlipCard() {
   $card.bind('click', function() {
     $flippedCard = $(this).addClass('card open show');
     opened.push($flippedCard);
-    $flippedCard;
     comparedCard();
   })
 };
-
-addFlipCard();
-
 
 
 
