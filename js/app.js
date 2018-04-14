@@ -4,26 +4,19 @@
 let symbols = ['bicycle', 'bicycle', 'leaf', 'leaf', 'cube', 'cube', 'anchor', 'anchor', 'paper-plane-o', 'paper-plane-o', 'bolt', 'bolt', 'bomb', 'bomb', 'diamond', 'diamond'],
   opened = [],
   matches = 0,
-  moves=[],
+  moves = [],
   $moveCount = $('.moves'),
   $starsCount = $('.fa-star'),
   delay = 400,
   $deck = $('.deck'),
-
+  deckSize = symbols.length / 2,
+  currentTimer,
+  second = 0,
+  $timer = $('.timer'),
+  $restart = $('.restart'),
   rank3stars = 8,
   rank2stars = 14,
   rank1stars = 18;
-
-
-
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -44,33 +37,74 @@ function shuffle(array) {
 function initGame() {
   var cards = shuffle(symbols);
   $deck.empty();
-  match =0;
-  moves=0;
+  match = 0;
+  moves = 0;
   $moveCount.text('0');
-	$starsCount.removeClass('fa-star-o').addClass('fa-star');
+  $starsCount.removeClass('fa-star-o').addClass('fa-star');
   for (var i = 0; i < cards.length; i++) {
     $deck.append($('<li class="card"><i class="fa fa-' + cards[i] + '"></i></li>'))
   }
   addFlipCard();
-};
+  resetTimer(currentTimer);
+  second = 0;
+  $timer.text(`${second}`)
+  initTime();
 
-initGame();
+};
 
 // Set Rating and final Score
 function setRating(moves) {
-	var rating = 3;
-	if (moves > rank3stars && moves < rank2stars) {
-		$starsCount.eq(2).removeClass('fa-star').addClass('fa-star-o');
-		rating = 2;
-	} else if (moves > rank2stars && moves < rank1stars) {
-		$starsCount.eq(1).removeClass('fa-star').addClass('fa-star-o');
-		rating = 1;
-	} else if (moves > rank1stars) {
-		$starsCount.eq(0).removeClass('fa-star').addClass('fa-star-o');
-		rating = 0;
-	}
-	return { score: rating };
+  var rating = 3;
+  if (moves > rank3stars && moves < rank2stars) {
+    $starsCount.eq(2).removeClass('fa-star').addClass('fa-star-o');
+    rating = 2;
+  } else if (moves > rank2stars && moves < rank1stars) {
+    $starsCount.eq(1).removeClass('fa-star').addClass('fa-star-o');
+    rating = 1;
+  } else if (moves > rank1stars) {
+    $starsCount.eq(0).removeClass('fa-star').addClass('fa-star-o');
+    rating = 0;
+  }
+  return {
+    score: rating
+  };
 };
+
+// End The Game
+function endGame(moves, score) {
+  swal({
+    allowEscapeKey: false,
+    allowOutsideClick: false,
+    title: 'Congratulations! You Won!',
+    text: 'With ' + moves + ' Moves and ' + score + ' Stars in ' + second + ' Seconds.\n Woooooo!',
+    type: 'success',
+    confirmButtonColor: '#02ccba',
+    confirmButtonText: 'Play again!'
+  }).then(function(isConfirm) {
+    if (isConfirm) {
+      initGame();
+    }
+  })
+}
+
+// Restart All Game
+$restart.bind('click', function() {
+  swal({
+    allowEscapeKey: false,
+    allowOutsideClick: false,
+    title: 'Are you sure?',
+    text: "Your progress will be Lost!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#02ccba',
+    cancelButtonColor: '#f95c3c',
+    confirmButtonText: 'Yes, Restart Game!'
+  }).then(function(isConfirm) {
+    if (isConfirm) {
+      initGame();
+    }
+  })
+});
 
 // Creates function that adds to matches the class if after two clicks,
 /// there is a match
@@ -79,21 +113,29 @@ function comparedCard() {
   if (opened.length == 2) {
 
     let cardOne = $(opened[0]).children().attr('class'),
-        cardTwo = $(opened[1]).children().attr('class');
+      cardTwo = $(opened[1]).children().attr('class');
 
     if (cardOne === cardTwo) {
       opened[0].addClass('match') && opened[1].addClass('match');
-      opened=[];
+      opened = [];
       match++;
 
     } else {
       setTimeout(function() {
         opened[0].removeClass('open show') && opened[1].removeClass('open show');
-        opened=[];
-        moves++;
-        setRating(moves);
-        $moveCount.html(moves);
-      }, delay/1.5);
+        opened = [];
+
+      }, delay / 1.5);
+      moves++;
+      setRating(moves);
+      $moveCount.html(moves);
+    }
+    if (deckSize === match) {
+      setRating(moves);
+      var score = setRating(moves).score;
+      setTimeout(function () {
+        endGame(moves,score);
+      },500);
     }
   }
 };
@@ -112,6 +154,21 @@ function addFlipCard() {
 };
 
 
+//Start and reset time
+function initTime() {
+  currentTimer = setInterval(function() {
+    $timer.text(`${second}`)
+    second = second + 1
+  }, 1000);
+}
+
+function resetTimer(timer) {
+  if (timer) {
+    clearInterval(timer);
+  }
+}
+
+initGame();
 
 
 
