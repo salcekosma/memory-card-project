@@ -14,9 +14,9 @@ let symbols = ['bicycle', 'bicycle', 'leaf', 'leaf', 'cube', 'cube', 'anchor', '
   second = 0,
   $timer = $('.timer'),
   $restart = $('.restart'),
-  rank3stars = 8,
-  rank2stars = 14,
-  rank1stars = 18;
+  rank3stars = 10,
+  rank2stars = 18,
+  rank1stars = 22;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -61,7 +61,7 @@ function setRating(moves) {
   } else if (moves > rank2stars && moves < rank1stars) {
     $starsCount.eq(1).removeClass('fa-star').addClass('fa-star-o');
     rating = 1;
-  } else if (moves > rank1stars) {
+  } else if (moves >= rank1stars) {
     rating = 1;
   }
   return {
