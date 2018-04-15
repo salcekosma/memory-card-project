@@ -62,8 +62,7 @@ function setRating(moves) {
     $starsCount.eq(1).removeClass('fa-star').addClass('fa-star-o');
     rating = 1;
   } else if (moves > rank1stars) {
-    $starsCount.eq(0).removeClass('fa-star').addClass('fa-star-o');
-    rating = 0;
+    rating = 1;
   }
   return {
     score: rating
