@@ -35,7 +35,7 @@ function shuffle(array) {
 }
 // Initial Game
 function initGame() {
-  var cards = shuffle(symbols);
+  let cards = shuffle(symbols);
   $deck.empty();
   match = 0;
   moves = 0;
@@ -78,13 +78,14 @@ function endGame(moves, score) {
     text: 'With ' + moves + ' Moves and ' + score + ' Stars in ' + second + ' Seconds.\n Woooooo!',
     type: 'success',
     confirmButtonColor: '#02ccba',
-    confirmButtonText: 'Play again!'
+    confirmButtonText: 'Play again!',
+    // endGame(),
   }).then(function(isConfirm) {
     if (isConfirm) {
       initGame();
     }
   })
-}
+};
 
 // Restart All Game
 $restart.bind('click', function() {
@@ -135,6 +136,7 @@ function comparedCard() {
       setTimeout(function () {
         endGame(moves,score);
       },500);
+      resetTimer(currentTimer);
     }
   }
 };
