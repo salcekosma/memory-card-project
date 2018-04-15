@@ -1,20 +1,39 @@
 # Memory Game Project
 
-## Table of Contents
+## What is a Memory Game?
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+It's a fun way to train your mind by laying down a group of cards and flipping them over to reveal its content.
+
+You can flip a maximum of two cards, if their content match they are permanently displayed. Otherwise, you have to flip them back (no worries! the game itself will do it for you :D )
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+* Click a card and memorize its position and figure.
+* Click a second card, if it matches the first, it will stay displayed, if not, both will be hidden again.
+* The game will finish once all pairs are discovered.
 
-To get started, open `js/app.js` and start building out the app's functionality
+## How it's made?
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+Starting code giving by Udacity's Front-End Web Developer Nanodegree.
 
-## Contributing
+During the first part of the course they taught us how to create a responsive website and then, how to integrate HTML & CSS with JS.
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+Concepts applied:
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+* DOM
+* Content Creation with JS
+* Event listeners
+* Array, For loops, variable declaration, functions.
+
+## Functions created in JS
+
+* Suffle() (given by Udacity and taken for Stackoverflow)
+* Initgame ()
+* addFlipCard()
+* setRating()
+* endGame()
+* compareCard()
+* initTime()
+* resetTimer()
+
+## Stay udacious, have fun and keep learning!!!
